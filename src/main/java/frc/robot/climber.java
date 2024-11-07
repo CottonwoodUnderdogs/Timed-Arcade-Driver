@@ -1,40 +1,38 @@
-
-    package frc.robot;
+package frc.robot;
 
 import java.util.Set;
-
+import edu.wpi.first.wpilibj.XboxController;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+    
+
 
  public class climber {
         private  CANSparkMax m_upMotor;
 
 
-//if(m_upMotor.getRawButton)
-//       private XboxController controller;
-
-//       //Constructor
-//       public climber(CANSparkMax A, Joystick B, Joystick C) {
-//         m_upMotor = A;
       
+      private XboxController controller;
 
-// public void Joystick_up_down() {
+      //Constructor
+      public climber(CANSparkMax A, XboxController B ) {
+        m_upMotor = A;
+        controller=B;
+      }
 
-//     if(m_leftStick.getRawButton(4)==true && m_rightStick.getRawButton(5)==false  ) {
-//         m_upMotor.set(0.8);  }
-   
-//     if(m_leftStick.getRawButton(4)==false && m_rightStick.getRawButton(5)==false  ) {
-//         m_upMotor.set(0);  }
+public void Joystick_up_down() {
+    if(controller.getRawButton(4)==true&&controller.getRawButton(2)==false) {
+        m_upMotor.set(0.8);  }
+    if(controller.getRawButton(4)==false&&controller.getRawButton(2)==true) {
+        m_upMotor.set(-0.8);  }
+    if(controller.getRawButton(4)==true&&controller.getRawButton(2)==true) {
+        m_upMotor.set(0);  }
+    if(controller.getRawButton(4)==false&&controller.getRawButton(2)==false) {
+        m_upMotor.set(0);  }
+    
 
-//     if(m_leftStick.getRawButton(4)==false && m_rightStick.getRawButton(5)==true  ) {
-//        m_upMotor.set(-0.8);  }
-
-//     if(m_leftStick.getRawButton(4)==true && m_rightStick.getRawButton(5)==true  ) {
-//         m_upMotor.set(0);  }
-//     }
-
-//     
+  } 
 
 
 /* 

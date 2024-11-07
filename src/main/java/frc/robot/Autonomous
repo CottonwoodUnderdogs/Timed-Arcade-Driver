@@ -1,0 +1,28 @@
+package frc.robot;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+public class Robot extends TimedRobot {
+    private static final String kDefaultAuto = "Default";
+    private static final String kCustomAuto = "My Auto";
+    private String m_autoSelected;
+    private final SendableChooser<String> m_chooser = new SendableChooser<>();
+    private final WPI_VictorSPX m_leftMotor = new WPI_VictorSPX(1);
+    private final WPI_VictorSPX m_left2Motor = new WPI_VictorSPX(2);
+    private final WPI_VictorSPX m_rightMotor = new WPI_VictorSPX(3);
+    private final WPI_VictorSPX m_right2Motor = new WPI_VictorSPX(4);
+    private final CANSparkMax m_upMotor = new CANSparkMax(5,MotorType.kBrushless);
+    private XboxController controller; 
+    private climber Climby;
+public void autonomousInit() {
+        m_autoSelected = m_chooser.getSelected();
+        // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+        System.out.println("Auto selected: " + m_autoSelected);
+      }

@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
   private final WPI_VictorSPX m_right2Motor = new WPI_VictorSPX(4);
   private final CANSparkMax m_upMotor = new CANSparkMax(5,MotorType.kBrushless);
   private XboxController controller; 
+  private climber Climby;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -40,6 +41,10 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    
+    controller = new XboxController(2);
+
+    Climby = new climber(m_upMotor, controller);
   }
 
   /**
@@ -94,6 +99,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    Climby.Joystick_up_down();
     double Y = -controller.getLeftY();
     double X = controller.getLeftX();
     double maximum;
