@@ -4,14 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -31,6 +34,8 @@ public class Robot extends TimedRobot {
   private final CANSparkMax m_upMotor = new CANSparkMax(5,MotorType.kBrushless);
   private XboxController controller; 
   private climber Climby;
+  private Timer timer = new Timer();
+  private DigitalInput climberlimitswitch= new DigitalInput(0);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -44,7 +49,8 @@ public class Robot extends TimedRobot {
     
     controller = new XboxController(2);
 
-    Climby = new climber(m_upMotor, controller);
+    Climby = new climber(m_upMotor, controller,climberlimitswitch);
+
   }
 
   /**
@@ -72,11 +78,60 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+
+    timer.reset();
+    timer.start();
+
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    double time = timer.get();
+//go forward for the right mottor wheels and for the left mottor wheels//
+ 
+    if (time < 2.0) {
+      m_leftMotor.set(0.5);
+      m_left2Motor.set(0.5);
+      m_rightMotor.set(0.5);
+      m_right2Motor.set(0.5);
+//go backward for the right mottor wheels and for the left mottor wheels//
+    }
+     else if (time < 5.0) {
+    m_leftMotor.set(-0.5);
+    m_left2Motor.set(-0.5);
+    m_rightMotor.set(-0.5);
+    m_right2Motor.set(-0.5);
+     }
+     // both of the wheels going to the right//
+
+/*  but if we have 
+else if (time < 3.0) {
+    m_leftMotor.set(-0.5);
+    m_left2Motor.set(-0.5);
+    m_rightMotor.set(0.5);
+    m_right2Motor.set(0.5);
+    }
+both wheels go to the left
+*/
+
+
+    else if (time < 3.0) {
+    m_leftMotor.set(0.5);
+    m_left2Motor.set(0.5);
+    m_rightMotor.set(-0.5);
+    m_right2Motor.set(-0.5);
+    }
+    // the right mottor wheels and left mottor wheels staying in the same position (speed 0), so doing nothing//
+    else {
+      m_leftMotor.set(0);
+      m_left2Motor.set(0);
+      m_rightMotor.set(0);
+      m_right2Motor.set(0);
+
+    }
+
+
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
@@ -174,7 +229,21 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
-}
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  }
+  
 
 //
 
